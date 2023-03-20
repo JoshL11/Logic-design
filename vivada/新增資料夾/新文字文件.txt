@@ -1,0 +1,94 @@
+`timescale 1ns/1ps
+
+module NAND_Implement (a, b, sel, out);
+input a, b;
+input [2:0] sel;
+output out;
+
+wire sel_rev[2:0];
+wire na,nb,nc,nd,ne,nf,ng,nh,ni,nk,nj,nl,nm,nn,no;
+wire sel1,sel2,sel3,nand125,sel4,sel5,sel6,sel7,sel8,sel9,sel10,sel11,sel12,sel13,sel14,sel15,sel16;
+wire oo,op,tp;
+wire y1,y2,y3,y4,y5,y6,y7,y8;
+nand nand1(sel_rev[0],sel[0],sel[0]);
+nand nand2(sel_rev[1],sel[1],sel[1]);
+nand nand3(sel_rev[2],sel[2],sel[2]);
+
+//nand
+add a1(sel_rev[0],sel_rev[1],sel1);
+add a2(sel_rev[2],sel1,sel2);
+nand nand777(nand125,a,b);
+add a3(sel2,nand125,y1);
+//and
+add a4(sel[0],sel_rev[1],sel3);
+add a5(sel_rev[2],sel3,sel4);
+add uuu(a,b,nb);
+add a6(sel4,nb,y2);
+
+//or
+add a7(sel_rev[0],sel[1],sel5);
+add a8(sel_rev[2],sel5,sel6);
+nand nand6(nc,a,a);
+nand nand7(nd,b,b);
+nand nand8(ne,nc,nd);
+add a9(sel,ne,y3);
+//nor
+add b1(sel[0],sel[1],sel7);
+add b2(sel_rev[2],sel7,sel8);
+nand nand11(nf,ne,ne);
+add b3(sel8,nf,y4);
+//xor
+add b4(sel_rev[0],sel_rev[1],sel9);
+add b5(sel[2],sel9,sel10);
+nand nand9(ng,a,nd);
+nand nand10(nh,b,nc);
+nand nand12(ni,ng,nh);
+add b6(sel10,ni,y5);
+//xnor
+add b7(sel[0],sel_rev[1],sel11);
+add b8(sel[2],sel11,sel12);
+nand nand13(nj,a,b);
+nand nand14(nk,nj,nc);
+nand nand15(nl,nk,nd);
+
+add b9(sel12,nl,y6);
+//not
+add c1(sel_rev[0],sel[1],sel13);
+add c2(sel[2],sel13,sel14);
+add c3(sel14,nc,y7);
+
+add c4(sel[0],sel[1],sel15);
+add c5(sel[2],sel15,sel16);
+add c6(sel16,nc,y8);
+wire t1,t2,t3,t4,t5,t6,t7,t8,t9;
+orr e1(y1,y2,t1);
+orr e2(t1,y3,t2);
+orr e3(t2,y4,t3);
+orr e4(t3,y5,t4);
+orr e5(t4,y6,t5);
+orr e6(t5,y7,t6);
+orr e7(t6,y8,out);
+
+
+endmodule
+
+
+
+module add(a,b,out);
+input a,b;
+output out;
+wire na,nb;
+nand nand4(na,a,b);
+nand nand5(out,na,na);
+
+endmodule
+
+module orr(a,b,out);
+input a,b;
+output out;
+wire na,nb;
+nand nand6(na,a,a);
+nand nand7(nb,b,b);
+nand nand8(out,na,nb);
+
+endmodule
